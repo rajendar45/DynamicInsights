@@ -7,16 +7,20 @@ from flask import render_template
 from flask import jsonify
 from flask_cors import CORS
 
+from config import Config
+
 
 dynamic_insights_rest_service = Flask(__name__)
 CORS(dynamic_insights_rest_service)
 thread_local = threading.local()
 
 main = Main()
+config = Config('sqlite')
 
 def get_db_connection():
     if not hasattr(thread_local, 'conn'):
-        thread_local.conn = sqlite3.connect('DynamicInsights.db', check_same_thread=False)
+        config = Config()
+        thread_local.conn = sqlite3.connect(config.database_name, check_same_thread=False)
     return thread_local.conn
 
 def insert_data_into_database():
@@ -89,4 +93,4 @@ def export_to_csv():
     return jsonify({'message': f'Results exported to {filename}'}), 200, {'Content-Type': 'application/json'}
 
 if __name__ == '__main__':
-    dynamic_insights_rest_service.run(host="0.0.0.0", port=8080)
+    dynamic_insights_rest_service.run(debug=True,host="0.0.0.0", port=8080)

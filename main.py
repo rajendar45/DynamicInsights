@@ -4,11 +4,16 @@ import csv
 from data_creator import DataCreator
 from sql_generator import SQLGenerator
 from datetime import datetime
+from config import Config
+
 
 class Main:
     def __init__(self):
-        self.data_creator = DataCreator('DynamicInsights.db')
-        self.sql_generator = SQLGenerator('AIzaSyBHXFCxfatXH_4EOZBWaIDWnbBWcw0Y0bQ', 'DynamicInsights.db')
+        config = Config('sqlite')
+        self.database_name = config.database_name
+        self.api_key = config.api_key
+        self.data_creator = DataCreator(self.database_name)
+        self.sql_generator = SQLGenerator(self.api_key, self.database_name)
         self.results = None
         self.columns = None
 
@@ -21,8 +26,10 @@ class Main:
 
     def execute_query(self, sql_query):
         try:
-            conn = sqlite3.connect('DynamicInsights.db')
+            conn = sqlite3.connect(self.database_name)
             cursor = conn.cursor()
+            print('excute query')
+            print(sql_query)
             cursor.execute(sql_query)
             self.results = cursor.fetchall()
             self.columns = [description[0] for description in cursor.description]
