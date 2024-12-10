@@ -5,6 +5,8 @@ from data_creator import DataCreator
 from sql_generator import SQLGenerator
 from datetime import datetime
 from config import Config
+import io
+
 
 
 class Main:
@@ -51,11 +53,16 @@ class Main:
     def export_to_csv(self, filename):
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         filename = f"query_results_{timestamp}.csv"
-        with open(filename, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
+        csv_data = io.StringIO()
+        writer = csv.writer(csv_data)
+        if self.columns and self.results:
             writer.writerow(self.columns)  # Write the column headers
             writer.writerows(self.results)  # Write the results
-        print(f"Results exported to {filename}")
+            #print('csv_data.getvalue:')
+            #print(csv_data.getvalue)
+            return csv_data.getvalue()
+        else:
+            return "No data available"
 
 if __name__ == '__main__':
     main = Main()

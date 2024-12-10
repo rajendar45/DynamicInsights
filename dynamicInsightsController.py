@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from flask import Response
 from dynamicInsightsService import DynamicInsightsService
 
 class DynamicInsightsController:
@@ -33,5 +34,12 @@ class DynamicInsightsController:
 
     def export_to_csv(self):
         filename = request.json['filename']
-        self.service.export_to_csv(filename)
-        return jsonify({'message': f'Results exported to {filename}'}), 200, {'Content-Type': 'application/json'}
+        csv_data = self.service.export_to_csv(filename)
+        print('csv_data: ')
+        print(csv_data)
+        if csv_data is None:
+            return []
+        return csv_data
+    
+    def get_chart_data(self):
+        return self.service.get_chart_data()

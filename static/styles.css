@@ -56,3 +56,36 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #3e8e41;
 }
+
+#results-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #results-table th, #results-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #results-table th {
+    background-color: #f0f0f0;
+  }
+  
+  #pagination-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  #prev-page-btn, #next-page-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #prev-page-btn:hover, #next-page-btn:hover {
+    background-color: #3e8e41;
+  }
