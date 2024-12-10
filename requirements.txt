@@ -1,0 +1,4 @@
+flask
+flask-cors
+google-generativeai
+werkzeug==2.0.3
