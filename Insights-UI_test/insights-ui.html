@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="insightsApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Insights UI</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="insights.js"></script>
+</head>
+<body ng-controller="InsightsController">
+    <link rel="stylesheet" href="insights.css">
+    <div>
+        <label for="query">Search Text:</label>
+        <input type="text" id="query" ng-model="query">
+        <button ng-click="search()">Search</button>
+        <button ng-if="results.length > 0" ng-click="exportToCSV()">Export to CSV</button>
+    </div>
+    <table ng-if="results.length > 0">
+        <thead>
+            <tr>
+                <th ng-repeat="(key, value) in results[0]">{{ key }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="result in results">
+                <td ng-repeat="(key, value) in result">{{ value }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

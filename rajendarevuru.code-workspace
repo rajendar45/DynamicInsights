@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "sql_query_generator"
+		},
+		{
+			"path": "../UiProject"
+		}
+	],
+	"settings": {}
+}
