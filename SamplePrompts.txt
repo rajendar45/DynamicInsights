@@ -2,6 +2,9 @@
 get maximum penality and feins
 get maximum penality and feins and filter penality with zeros
 get minumum penalitya,penalityb feins by filtering 0
+list sum of penalties for each fein and taxyear
+
+Can you provide the consolidated penalty amounts by Tax Year and FEIN, and filter the 2021 penalties exceeding zero?
 
 show all reasons
 show all different reasons

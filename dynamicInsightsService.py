@@ -22,24 +22,28 @@ class DynamicInsightsService:
         cursor.close()
         return data
     
-    def get_chart_data(self):
+    def get_chart_data(self,nlpquery):
         try:
             conn = self.get_db_connection()
             cursor = conn.cursor()
-            cursor.execute('SELECT TAX_YR,FEIN_ID,SUM(PENALTY_A_AMT) AS TOTAL_PENALTY_A_AMT,SUM(PENALTY_B_AMT) AS TOTAL_PENALTY_B_AMT FROM FEIN_PENALTY_INFO  GROUP BY TAX_YR, FEIN_ID HAVING SUM(PENALTY_A_AMT) > 0  ORDER BY TAX_YR, FEIN_ID ')
+            if nlpquery is not None and nlpquery.strip() != '':
+                cursor.execute(nlpquery)
+            else:
+                cursor.execute('SELECT TAX_YR, FEIN_ID, SUM(PENALTY_A_AMT) AS TOTAL_PENALTY_A_AMT, SUM(PENALTY_B_AMT) AS TOTAL_PENALTY_B_AMT FROM FEIN_PENALTY_INFO GROUP BY TAX_YR, FEIN_ID HAVING SUM(PENALTY_A_AMT) > 0 ORDER BY TAX_YR, FEIN_ID')
             rows = cursor.fetchall()
-            #print(rows)
-            if rows is None or len(rows) == 0:
-                return {"chartData": []}
-            chart_data = []
-            for row in rows:
-                chart_data.append({
-                    'name': 'TAXYEAR:'+row[0]+' FEIN :('+row[1]+')',
-                    'data': [
-                        {'name': row[1], 'y': row[2]},
-                        {'name': row[1], 'y': row[3]}
-                    ]
-                })
+            if not rows:
+                chart_data = []
+            else:
+                print(rows)
+                columns = [description[0] for description in cursor.description]
+                chart_data = [
+                    {
+                        'x': row[0]+'_'+row[1],
+                        'y': row[2],
+                        'h': columns[0]+'_'+columns[1]
+                    }
+                    for row in rows
+                ]
             print(chart_data)
             return {"chartData": chart_data}
         except Exception as e:

@@ -14,13 +14,14 @@ class DynamicInsightsController:
         return jsonify({'message': 'Query executed successfully :'+str(data)}), 200
 
     def generate_sql_query(self):
-        natural_language_input = request.json['natural_language_input']
-        sql_query = self.service.generate_sql_query(natural_language_input)
+        self.natural_language_input = request.json['natural_language_input']
+        sql_query = self.service.generate_sql_query(self.natural_language_input)
         print(sql_query)
         return jsonify({'sql_query': sql_query})
 
     def execute_query(self):
         sql_query = request.json['sql_query']
+        self.nlpquery = sql_query
         self.service.execute_query(sql_query)
         return {'sql_query': sql_query}
 
@@ -42,4 +43,4 @@ class DynamicInsightsController:
         return csv_data
     
     def get_chart_data(self):
-        return self.service.get_chart_data()
+        return self.service.get_chart_data(self.nlpquery)

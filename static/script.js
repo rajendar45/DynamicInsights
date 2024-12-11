@@ -235,7 +235,7 @@ document.getElementById('view-chart-data-btn').addEventListener('click', functio
     .then(data => {
       const chartDataArray = data.chartData.chartData; // Access the chartData array property
       // Render the chart using Highcharts
-      Highcharts.chart('chart-container', {
+      Highcharts.chart('bar-chart-container', {
         chart: {
           type: 'column'
         },
@@ -245,23 +245,47 @@ document.getElementById('view-chart-data-btn').addEventListener('click', functio
         xAxis: {
           type: 'category',
           categories: chartDataArray.map(function(item) {
-            return item.name;
+            return item.x;
           })
         },
         yAxis: {
           title: {
-            text: 'Values'
+            text: 'Penalty'
           }
         },
         series: [{
-          name: 'Penalty A',
+          name: 'Fein Tax Year',
           data: chartDataArray.map(function(item) {
-            return item.data[0].y;
+            return item.y;
           })
-        }, {
-          name: 'Penalty B',
+        }]
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    fetch('/chart-data', {
+      method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+      const chartDataArray = data.chartData.chartData; // Access the chartData array property
+      // Render the chart using Highcharts
+      Highcharts.chart('pie-chart-container', {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          text: 'Penalty Data'
+        },
+        series: [{
+          name: 'Penalty',
+          colorByPoint: true,
           data: chartDataArray.map(function(item) {
-            return item.data[1].y;
+            return {
+              name: item.x,
+              y: item.y
+            };
           })
         }]
       });
