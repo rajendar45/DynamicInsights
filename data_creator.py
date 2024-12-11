@@ -25,11 +25,21 @@ class DataCreator:
             'PENALTY_A_AMT':'REAL',
             'PENALTY_B_AMT':'REAL'
         })
+        self.db_manager.create_table('EMP1GREASONS', {
+            'FirstName': 'TEXT',
+            'LastName': 'TEXT',
+            'State': 'TEXT',
+            'line14': 'TEXT',
+            'reasons':'TEXT'
+        })
+
 
     def insert_data(self):
         sample_data_employee_info_keys = ['ACA_EMPLOYEE_GUID', 'FIRST_NM', 'LAST_NM', 'GENDER_ID']
         sample_data_employee_issues_keys=['ACA_EMPLOYEE_GUID','ISSUE_CD']
         sample_data_fein_penalty_infor_key=['ID','TAX_YR','FEIN_ID','MONTH_NM','PENALTY_A_AMT','PENALTY_B_AMT']
+        sample_data_employee_1g_reasons_key=['FirstName','LastName','State','line14','reasons']
+
 
         sample_data_employee_info_values = [
                 ['b89ee221-a6a8-4914-b0b6-9e9d08babe3b', 'ZKGZIKY S', 'MNGOO', 'U'],
@@ -11861,7 +11871,16 @@ class DataCreator:
                         0]
         ]
 
+        sample_data_employee_1g_reasons_values=[
+            ['John','Doe','NY','1G','MP/SP Does not exist'],
+            ['Jane','smith','CA','1G','Employee not active'],
+            ['bob','johnson','TX','1G','Employee is PT for full Year'],
+            ['Steve','Hawk','AZ','1G','MP/SP Does not exist'],
+            ['Rajendar','Evuru','NY','1G','Employee is PT for full Year']
+            ]
+
        
         self.db_manager.insert_data('EMPLOYEE', sample_data_employee_info_keys,sample_data_employee_info_values)
         self.db_manager.insert_data('EMPDHC', sample_data_employee_issues_keys,sample_data_employee_issues_values)
         self.db_manager.insert_data('FEIN_PENALTY_INFO', sample_data_fein_penalty_infor_key,sample_data_fein_penalty_infor_values)
+        self.db_manager.insert_data('EMP1GREASONS', sample_data_employee_1g_reasons_key,sample_data_employee_1g_reasons_values)

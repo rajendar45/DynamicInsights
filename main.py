@@ -34,6 +34,8 @@ class Main:
             print(sql_query)
             cursor.execute(sql_query)
             self.results = cursor.fetchall()
+            print('execute query')
+            print(self.results)
             self.columns = [description[0] for description in cursor.description]
             conn.close()
         except sqlite3.OperationalError as e:
