@@ -15,6 +15,31 @@ const sqlQueryContainer = document.getElementById('sql-query-container');
 const viewChartDataBtn  = document.getElementById('view-chart-data-btn');
 
 
+const refreshBtn = document.createElement('button');
+refreshBtn.textContent = 'Reset';
+refreshBtn.style.marginBottom = '10px';
+
+// Append refresh button to the container
+const container = document.getElementById('container');
+container.appendChild(refreshBtn);
+
+// Add event listener to refresh button
+refreshBtn.addEventListener('click', () => {
+  // Clear existing content
+  const resultsContainer = document.getElementById('results-container');
+  resultsContainer.innerHTML = '';
+
+  // Reset query input field
+  const queryInputField = document.getElementById('sql-query-input');
+  queryInputField.value = '';
+   // Reset view chart data button
+  const viewChartDataBtn = document.getElementById('view-chart-data-btn');
+  viewChartDataBtn.disabled = true;
+
+  // Hide chart container
+  const chartContainer = document.getElementById('chart-container');
+  chartContainer.style.display = 'none';
+});
 
 generateSqlBtn.addEventListener('click', () => {
     console.log('Generate SQL button clicked!');
@@ -42,7 +67,7 @@ generateSqlBtn.addEventListener('click', () => {
     .catch(error => console.error('Error:', error));
     });
 
-executeQueryBtn.addEventListener('click', () => {
+/*executeQueryBtn.addEventListener('click', () => {
     const sqlQuery = document.getElementById('sql-query-input').value;
     console.log('sqlQuery:', sqlQuery);
     fetch('/execute_query', {
@@ -55,116 +80,133 @@ executeQueryBtn.addEventListener('click', () => {
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error(error));
-});
+});*/
 
+displayResultsBtn.addEventListener('click', async () => {
+  const sqlQuery = document.getElementById('sql-query-input').value;
+  console.log('sqlQuery:', sqlQuery);
 
-displayResultsBtn.addEventListener('click', () => {
-  fetch('/display_query_results', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    const container = document.getElementById('results-container');
-    container.innerHTML = ''; // Clear existing content
+  try {
+    const response = await fetch('/execute_query', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ sql_query: sqlQuery })
+    });
+    const data = await response.json();
+    console.log(data);
 
-    if (data.results.length === 0) {
-      container.innerHTML = '<p>No results available.</p>';
-    } else {
-      // Create table
-      const table = document.createElement('table');
-      table.style.width = '100%'; // Set table width to 100%
+    // Now display the results
+    fetch('/display_query_results', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('results-container');
+      container.innerHTML = ''; // Clear existing content
 
-      // Create table header row
-      const headerRow = document.createElement('tr');
-      data.columns.forEach(column => {
-        const headerCell = document.createElement('th');
-        headerCell.textContent = column;
-        headerCell.style.background = '#f0f0f0'; // Style column headers
-        headerCell.style.padding = '8px';
-        headerRow.appendChild(headerCell);
-      });
-      table.appendChild(headerRow);
+      if (data.results.length === 0) {
+        container.innerHTML = '<p>No results available.</p>';
+      } else {
+        // Create table
+        const table = document.createElement('table');
+        table.style.width = '100%'; // Set table width to 100%
 
-      // Create table body
-      const tableBody = document.createElement('tbody');
-      table.appendChild(tableBody);
+        // Create table header row
+        const headerRow = document.createElement('tr');
+        data.columns.forEach(column => {
+          const headerCell = document.createElement('th');
+          headerCell.textContent = column;
+          headerCell.style.background = '#f0f0f0'; // Style column headers
+          headerCell.style.padding = '8px';
+          headerRow.appendChild(headerCell);
+        });
+        table.appendChild(headerRow);
 
-      // Append the table to the results container
-      container.appendChild(table);
+        // Create table body
+        const tableBody = document.createElement('tbody');
+        table.appendChild(tableBody);
 
-      // Function to render table data
-      function renderTableData(results) {
-        tableBody.innerHTML = '';
+        // Append the table to the results container
+        container.appendChild(table);
 
-        const currentPageResults = results;
-        currentPageResults.forEach(result => {
-          const row = document.createElement('tr');
-          result.forEach(cellData => {
-            const cell = document.createElement('td');
-            cell.textContent = cellData;
-            cell.style.padding = '8px';
-            row.appendChild(cell);
+        // Function to render table data
+        function renderTableData(results) {
+          tableBody.innerHTML = '';
+
+          const currentPageResults = results;
+          currentPageResults.forEach(result => {
+            const row = document.createElement('tr');
+            result.forEach(cellData => {
+              const cell = document.createElement('td');
+              cell.textContent = cellData;
+              cell.style.padding = '8px';
+              row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
           });
-          tableBody.appendChild(row);
-        });
+        }
+
+        // Function to handle pagination
+        function handlePagination() {
+          const recordsPerPage = 10;
+          const totalPages = Math.ceil(data.results.length / recordsPerPage);
+          let currentPage = 1;
+
+          // Render table data for current page
+          const startIndex = (currentPage - 1) * recordsPerPage;
+          const endIndex = startIndex + recordsPerPage;
+          const currentPageResults = data.results.slice(startIndex, endIndex);
+          renderTableData(currentPageResults);
+
+          // Create pagination buttons
+          const paginationContainer = document.createElement('div');
+          paginationContainer.style.textAlign = 'center'; // Center pagination buttons
+
+          const prevPageBtn = document.createElement('button');
+          prevPageBtn.textContent = 'Previous';
+          prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage--;
+              handlePagination();
+            }
+          });
+
+          const nextPageBtn = document.createElement('button');
+          nextPageBtn.textContent = 'Next';
+          nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+              currentPage++;
+              handlePagination();
+            }
+          });
+
+          const pageNumDisplay = document.createElement('span');
+          pageNumDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
+
+          paginationContainer.appendChild(prevPageBtn);
+          paginationContainer.appendChild(pageNumDisplay);
+          paginationContainer.appendChild(nextPageBtn);
+
+          // Append the pagination container to the results container
+          container.appendChild(paginationContainer);
+        }
+
+        handlePagination(); // Call handlePagination() when results are available
       }
-
-      // Function to handle pagination
-      function handlePagination() {
-        const recordsPerPage = 10;
-        const totalPages = Math.ceil(data.results.length / recordsPerPage);
-        let currentPage = 1;
-
-        // Render table data for current page
-        const startIndex = (currentPage - 1) * recordsPerPage;
-        const endIndex = startIndex + recordsPerPage;
-        const currentPageResults = data.results.slice(startIndex, endIndex);
-        renderTableData(currentPageResults);
-
-        // Create pagination buttons
-        const paginationContainer = document.createElement('div');
-        paginationContainer.style.textAlign = 'center'; // Center pagination buttons
-
-        const prevPageBtn = document.createElement('button');
-        prevPageBtn.textContent = 'Previous';
-        prevPageBtn.addEventListener('click', () => {
-          if (currentPage > 1) {
-            currentPage--;
-            handlePagination();
-          }
-        });
-
-        const nextPageBtn = document.createElement('button');
-        nextPageBtn.textContent = 'Next';
-        nextPageBtn.addEventListener('click', () => {
-          if (currentPage < totalPages) {
-            currentPage++;
-            handlePagination();
-          }
-        });
-
-        const pageNumDisplay = document.createElement('span');
-        pageNumDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
-
-        paginationContainer.appendChild(prevPageBtn);
-        paginationContainer.appendChild(pageNumDisplay);
-        paginationContainer.appendChild(nextPageBtn);
-
-        // Append the pagination container to the results container
-        container.appendChild(paginationContainer);
-      }
-
-      handlePagination(); // Call handlePagination() when results are available
-    }
-  })
-  .catch(error => console.error(error));
+    })
+    .catch(error => console.error(error));
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 exportToCsvBtn.addEventListener('click', () => {
-  const filename = document.getElementById('filename-input').value;
+  const filename = 'Tempdata';
   fetch('/export_to_csv', {
     method: 'POST',
     headers: {

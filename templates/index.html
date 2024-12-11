@@ -12,9 +12,14 @@
 </head>
 <body>
     <h1>Dynamic Insights Hackathon</h1>
+    <div id="container"></div>
+    <body>
+      <div id="container"></div>
+      <script src="script.js"></script>
+    </body>
+
     <div class="container">
         <button id="generate-sql-submit-btn">Generate SQL Query</button>
-        <button id="execute-query-btn">Execute Query</button>
         <button id="display-results-btn">Display Query Results</button>
         <button id="export-to-csv-btn">Export to CSV</button>
         <button id="view-chart-data-btn">View Penalty Data</button>
@@ -53,8 +58,7 @@
         </form>
 
         <form id="export-to-csv-form">
-            <label for="filename-input">Filename:</label>
-            <input type="text" id="filename-input" name="filename-input" value="Tempdata.csv">
+
         </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
