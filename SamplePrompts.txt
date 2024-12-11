@@ -1,0 +1,14 @@
+
+get maximum penality and feins
+get maximum penality and feins and filter penality with zeros
+get minumum penalitya,penalityb feins by filtering 0
+
+show all reasons
+show all different reasons
+get 1G count
+show all reasons of 1G
+show all reasons and employee name of 1G filter with reasons Employee not active
+
+show all employees
+show all employees with issue codes
+show all employees and issuescodes with issue codes filter issue codes like DHC_TOTAL_HOURS_ZERO
