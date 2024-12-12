@@ -18,11 +18,10 @@
         <form id="generate-sql-form">
             <label for="natural-language-input">Natural Language Input:</label>
             <textarea id="natural-language-input" name="natural-language-input">Show the names of employees who have an issue code</textarea>
-            <div style="text-align: left; margin-left: 20px;">
+            <div style="text-align: left; margin-left: 20px; line-height: 0.8;">
                 <span class="hint" onclick="populateHintText('show all employees and issuescodes with issue codes filter issue codes like DHC_TOTAL_HOURS_ZERO')">show all employees and issuescodes with issue codes filter issue codes like DHC_TOTAL_HOURS_ZERO</span><br>
                 <span class="hint" onclick="populateHintText('Can you provide the consolidated penalty amounts by Tax Year and FEIN, and filter the 2021 penalties exceeding zero?')">Can you provide the consolidated penalty amounts by Tax Year and FEIN, and filter the 2021 penalties exceeding zero?</span><br>
-                <span class="hint" onclick="populateHintText('show all reasons of 1G')">show all reasons of 1G</span><br>
-                <span class="hint" onclick="populateHintText('show all reasons and employee name of 1G filter with reasons Employee not active')">show all reasons and employee name of 1G filter with reasons Employee not active </span>
+                <span class="hint" onclick="populateHintText('show all reasons of 1G')">show all reasons of 1G</span>
             </div>
         </form>
         <button id="generate-sql-submit-btn">Generate SQL Query</button>
