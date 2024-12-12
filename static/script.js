@@ -14,6 +14,10 @@ if (refreshBtn) {
   });
 }
 
+function populateHintText(hintText) {
+  document.getElementById("natural-language-input").value = hintText;
+}
+
 if (generateSqlBtn) {
   generateSqlBtn.addEventListener('click', () => {
       console.log('Generate SQL button clicked!');

@@ -45,7 +45,13 @@ label {
     display: block;
     margin-bottom: 10px;
 }
-
+.hint {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #000080;
+  display: list-item;
+  list-style-position: inside;
+}
 textarea, input {
     width: 100%;
     padding: 10px;
