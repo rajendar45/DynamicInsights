@@ -37,6 +37,10 @@
         <div id="pie-chart-container"></div>   
     </div>
     <img src="{{ url_for('static', filename='adp-logo.png') }}" alt="ADP Logo" style="position: absolute; top: 10px; right: 10px;">
+    <div id="hourglass-container" class="hourglass" style="display: none;">
+        <div class="hourglass-spinner"></div>
+        <span>Processing...</span>
+    </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>

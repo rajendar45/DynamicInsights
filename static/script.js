@@ -23,7 +23,7 @@ if (generateSqlBtn) {
       console.log('Generate SQL button clicked!');
       const naturalLanguageInput = document.getElementById('natural-language-input').value;
       console.log('Natural language input:', naturalLanguageInput);
-
+      document.getElementById('hourglass-container').style.display = 'block';
       fetch('/generate_sql_query', {
           method: 'POST',
           headers: {
@@ -40,6 +40,7 @@ if (generateSqlBtn) {
       .then(data => {
           console.log('Received SQL query:', data.sql_query);
           document.getElementById('sql-query-input').value = data.sql_query;
+          document.getElementById('hourglass-container').style.display = 'none';
       })
       .catch(error => console.error('Error:', error));
   });
