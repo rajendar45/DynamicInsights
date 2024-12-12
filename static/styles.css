@@ -10,18 +10,27 @@ body {
     text-align: center;
 }
 
+div {
+  padding: 10px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
 button {
     padding: 10px 20px;
     margin: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
+    background-color: #000080;
     color: #fff;
     cursor: pointer;
 }
+h1 {
+  text-align: center;
+}
 
 button:hover {
-    background-color: #3e8e41;
+    background-color: #0056b3;
 }
 
 #results-container {
@@ -45,7 +54,7 @@ textarea, input {
 }
 
 button[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #000080;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -54,7 +63,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #3e8e41;
+    background-color: #0056b3;
 }
 
 #results-table {
@@ -78,7 +87,7 @@ button[type="submit"]:hover {
   }
   
   #prev-page-btn, #next-page-btn {
-    background-color: #4CAF50;
+    background-color: #000080;
     color: #fff;
     padding: 8px 16px;
     border: none;
@@ -87,5 +96,5 @@ button[type="submit"]:hover {
   }
   
   #prev-page-btn:hover, #next-page-btn:hover {
-    background-color: #3e8e41;
+    background-color: #0056b3;
   }
