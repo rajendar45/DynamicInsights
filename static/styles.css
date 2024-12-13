@@ -12,7 +12,7 @@ body {
 
 div {
   padding: 10px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   text-align: center;
 }
 
@@ -43,7 +43,8 @@ form {
 
 label {
     display: block;
-    margin-bottom: 10px;
+    margin-left: 170px;
+    text-align: left;
 }
 .hint {
   text-decoration: underline;
@@ -51,6 +52,7 @@ label {
   color: #000080;
   display: list-item;
   list-style-position: inside;
+  margin-left: 150px;
 }
 .hourglass {
   position: absolute;
@@ -79,7 +81,7 @@ label {
   }
 }
 textarea, input {
-    width: 100%;
+    width: 70%;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
